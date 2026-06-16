@@ -20,10 +20,10 @@ namespace Ordering.Data
             {
                 new()
                 {
-                    UserName = "rahul",
-                    FirstName = "Rahul",
+                    UserName = "Sriya",
+                    FirstName = "Sriya",
                     LastName = "Sahay",
-                    EmailAddress = "rahulsahay@eCommerce.net",
+                    EmailAddress = "Sriyasahay@eCommerce.net",
                     AddressLine = "Bangalore",
                     Country = "India",
                     TotalPrice = 750,
@@ -32,11 +32,11 @@ namespace Ordering.Data
 
                     CardName = "Visa",
                     CardNumber = "4111111111111111",
-                    CreatedBy = "Rahul",
+                    CreatedBy = "Sriya",
                     Expiration = "12/25",
                     Cvv = "123",
                     PaymentMethod = 1,
-                    LastModifiedBy = "Rahul",
+                    LastModifiedBy = "Sriya",
                     LastModifiedDate = new DateTime(),
                 }
             };
