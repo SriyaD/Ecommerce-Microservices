@@ -19,11 +19,11 @@ namespace Ordering.Data
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDate = DateTime.UtcNow;
-                        entry.Entity.CreatedBy = "Rahul"; //TODO: Replace this with User from IUserService
+                        entry.Entity.CreatedBy = "Sriya"; //TODO: Replace this with User from IUserService
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedDate = DateTime.UtcNow;
-                        entry.Entity.LastModifiedBy = "Rahul";
+                        entry.Entity.LastModifiedBy = "Sriya";
                         break;
                 }
             }
