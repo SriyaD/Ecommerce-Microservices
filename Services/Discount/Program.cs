@@ -1,13 +1,17 @@
+using Common.Logging;
 using Discount.Extensions;
 using Discount.Handlers;
 using Discount.Repositories;
 using Discount.Services;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//Serilog configuration
+builder.Host.UseSerilog(Logging.ConfigureLogger);
 //Mediatr
 var assemblies = new Assembly[]
 {
@@ -20,6 +24,7 @@ builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 builder.Services.AddGrpc();
 
 var app = builder.Build();
+app.UseMiddleware<CorrelationIdMiddleware>();
 
 //Migrate the Database
 app.MigrateDatabase<Program>();

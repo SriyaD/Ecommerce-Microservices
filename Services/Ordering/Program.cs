@@ -1,12 +1,15 @@
+using Common.Logging;
 using EventBus.Messages.Common;
 using MassTransit;
 using Ordering.Data;
 using Ordering.Dispatcher;
 using Ordering.EventBusConsumer;
 using Ordering.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//Serilog configuration
+builder.Host.UseSerilog(Logging.ConfigureLogger);
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -18,11 +21,11 @@ builder.Services.AddSwaggerGen();
 //Application Services
 builder.Services.AddApplicationServices();
 
-//Register Outbox Message Dispatcher
-builder.Services.AddHostedService<OutboxMessageDispatcher>();
 //Infra services
 builder.Services.AddInfraServices(builder.Configuration);
 
+//Register Outbox Message Dispatcher
+builder.Services.AddHostedService<OutboxMessageDispatcher>();
 //Mass Transit
 builder.Services.AddMassTransit(config =>
 {
@@ -30,6 +33,7 @@ builder.Services.AddMassTransit(config =>
     config.AddConsumer<BasketOrderingConsumer>();
     config.AddConsumer<PaymentCompletedConsumer>();
     config.AddConsumer<PaymentFailedConsumer>();
+
     config.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
@@ -52,7 +56,7 @@ builder.Services.AddMassTransit(config =>
 });
 
 var app = builder.Build();
-
+app.UseMiddleware<CorrelationIdMiddleware>();
 //Migration
 app.MigrateDatabase<OrderContext>((context, services) =>
 {

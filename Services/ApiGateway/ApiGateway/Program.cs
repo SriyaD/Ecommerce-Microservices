@@ -1,3 +1,4 @@
+using ApiGateway.Middleware;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -43,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseMiddleware<CorrelationIdMiddleware>();
 //app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

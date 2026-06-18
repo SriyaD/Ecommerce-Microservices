@@ -10,11 +10,13 @@
     <PackageReference Include="MassTransit" Version="8.5.2" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.16" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\EventBus.Messages\EventBus.Messages.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Common.Logging\Common.Logging.csproj" />
   </ItemGroup>
 
 </Project>
