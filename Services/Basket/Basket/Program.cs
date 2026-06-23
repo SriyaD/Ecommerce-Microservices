@@ -1,14 +1,18 @@
 using Basket.GrpcService;
 using Basket.Handlers;
 using Basket.Repositories;
+using Common.Logging;
 using Discount.Grpc.Protos;
 using MassTransit;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//Serilog configuration
+builder.Host.UseSerilog(Logging.ConfigureLogger);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -49,9 +53,9 @@ builder.Services.AddMassTransit(config =>
         cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
     });
 });
-
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-
+app.UseMiddleware<CorrelationIdMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

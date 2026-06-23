@@ -1,4 +1,5 @@
 ﻿using EventBus.Messages.Events;
+using MassTransit.Transports;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using Newtonsoft.Json;
 using Ordering.Commands;
@@ -117,31 +118,64 @@ namespace Ordering.Mappers
             };
         }
 
-        public static OutboxMessage ToOutboxMessage(Order order)
+        public static OutboxMessage ToOutboxMessage(Order order, Guid correlationId)
+        {
+            var integrationEvent = new OrderCreatedEvent
+            {
+                Id = order.Id,
+                UserName = order.UserName,
+                TotalPrice = (decimal)order.TotalPrice,
+                FirstName = order.FirstName,
+                LastName = order.LastName,
+                AddressLine = order.AddressLine,
+                Country = order.Country,
+                State = order.State,
+                ZipCode = order.ZipCode,
+                CardName = order.CardName,
+                CardNumber = order.CardNumber,
+                Expiration = order.Expiration,
+                Cvv = order.Cvv,
+                PaymentMethod = (int)order.PaymentMethod,
+                Status = order.Status.ToString(),
+                CorrelationId = correlationId,
+                CreationDate = DateTime.UtcNow
+            };
+
+            return new OutboxMessage
+            {
+                CorrelationId = correlationId.ToString(),
+                Type = OutboxMessageTypes.OrderCreated,
+                OccurredOn = DateTime.UtcNow,
+                Content = JsonConvert.SerializeObject(integrationEvent) // serialize the full event
+            };
+        }
+
+
+        internal static OutboxMessage ToOutboxMessageForUpdate(Order orderToUpdate, Guid correlationId)
         {
             return new OutboxMessage
             {
-                CorrelationId = Guid.NewGuid().ToString(),
+                CorrelationId = correlationId.ToString(),
                 Type = OutboxMessageTypes.OrderCreated,
                 OccurredOn = DateTime.UtcNow,
                 Content = JsonConvert.SerializeObject(new
                 {
-                    order.Id,
-                    order.UserName,
-                    order.TotalPrice,
-                    order.FirstName,
-                    order.LastName,
-                    order.AddressLine,
-                    order.Country,
-                    order.State,
-                    order.ZipCode,
+                    orderToUpdate.Id,
+                    orderToUpdate.UserName,
+                    orderToUpdate.TotalPrice,
+                    orderToUpdate.FirstName,
+                    orderToUpdate.LastName,
+                    orderToUpdate.AddressLine,
+                    orderToUpdate.Country,
+                    orderToUpdate.State,
+                    orderToUpdate.ZipCode,
                     //PCI sensitive 
-                    order.CardName,
-                    order.CardNumber,
-                    order.Expiration,
-                    order.Cvv,
-                    order.PaymentMethod,
-                    order.Status
+                    orderToUpdate.CardName,
+                    orderToUpdate.CardNumber,
+                    orderToUpdate.Expiration,
+                    orderToUpdate.Cvv,
+                    orderToUpdate.PaymentMethod,
+                    orderToUpdate.Status
                 })
             };
         }
