@@ -1,19 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { BasketService } from '../../store/services/basket.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })
 export class Navbar {
   searchText = '';
-  cartCount = 0; //Later will connect with Basket signal
+  private basketService = inject(BasketService);
   constructor(private router: Router){}
+
+  get cartCount(){
+    return this.basketService.basketCount();
+  }
 
   onSearch() {
     const term = this.searchText.trim();
