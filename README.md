@@ -3,8 +3,8 @@
 This project is a **real-world e-commerce application** built with **.NET 9, RabbitMQ, SQL Server, Redis, PostgreSQL, and Docker**, **enterprise-grade, event-driven, cloud-native microservices** with **Saga and Outbox patterns** for **transactional consistency**.
 
 ## 🏗 Architecture Overview  
+<img width="1625" height="1530" alt="image" src="https://github.com/user-attachments/assets/cb46f478-f32b-4198-bb9b-4f9317e19be0" />
 
-![Image](./Architecture%20Diagrams/Microservices-arch-1x.png)
 
 ## 📡 Application Flow
 
@@ -85,8 +85,6 @@ Azure Deployment & CI/CD pipelines
 Observability with Prometheus, Grafana
 
 Service Mesh (Istio/Linkerd)
-
-🎯 Why Take This Course?
 
 ## Code Structure:- 
 ![image](https://github.com/user-attachments/assets/9914fe05-aadf-42fb-8ab3-3b39e7f30433)
