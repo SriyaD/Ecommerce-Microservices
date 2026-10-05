@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BasketService } from '../../store/services/basket.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class Login {
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private basketService = inject(BasketService);
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -30,6 +32,7 @@ export class Login {
     this.authService.login(this.loginForm.getRawValue()).subscribe({
       next: (res) => {
         this.authService.saveToken(res.token); // use service to persist token
+        this.basketService.mergeGuestBasket(); // keep items added before logging in
         this.snackBar.open('Login Successful 🎉', 'close', {
           duration: 2000,
           horizontalPosition: 'right',

@@ -20,7 +20,11 @@ export class Orders implements OnInit {
   loading = signal<boolean>(true);
 
   ngOnInit(): void {
-    const userName = 'sriya'; //TODO: this.authService.getUserName();
+    const userName = this.authService.getUserName();
+    if (!userName) {
+      this.loading.set(false);
+      return;
+    }
     this.http.get<Order[]>(`http://localhost:8010/Order/${userName}`).subscribe({
       next: (res) => {
         const sorted = res.sort((a, b) => b.id - a.id);

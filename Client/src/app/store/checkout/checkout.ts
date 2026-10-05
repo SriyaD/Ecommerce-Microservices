@@ -23,9 +23,8 @@ export class CheckoutComponent {
   private snackBar = inject(MatSnackBar);
 
   checkoutForm = this.fb.group({
-    //TODO: Get basket name as default value as username
-    //userName: [{ value: this.authService.getUserName(), disabled: true }, Validators.required],
-    userName: ['', Validators.required],
+    //Must match the key the basket is stored under; read-only so it can't be mistyped
+    userName: [{ value: this.basketService.userName, disabled: true }, Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     emailAddress: ['', [Validators.required, Validators.email]],
@@ -42,6 +41,34 @@ export class CheckoutComponent {
 
   get basket() {
     return this.basketService.basket;
+  }
+
+  private readonly fieldLabels: Record<string, string> = {
+    firstName: 'First name',
+    lastName: 'Last name',
+    emailAddress: 'Email address',
+    addressLine: 'Address',
+    state: 'State',
+    country: 'Country',
+    zipCode: 'Zip code',
+    cardName: 'Card name',
+    cardNumber: 'Card number',
+    expiration: 'Expiration',
+    cvv: 'CVV'
+  };
+
+  // Message for the first failing rule, shown only after the user has interacted with the field
+  errorFor(controlName: string): string | null {
+    const control = this.checkoutForm.get(controlName);
+    if (!control || !control.invalid || !(control.touched || control.dirty)) return null;
+
+    const label = this.fieldLabels[controlName] ?? controlName;
+    const errors = control.errors ?? {};
+    if (errors['required']) return `${label} is required.`;
+    if (errors['email']) return 'Enter a valid email address.';
+    if (errors['minlength']) return `${label} must be at least ${errors['minlength'].requiredLength} characters.`;
+    if (errors['maxlength']) return `${label} must be at most ${errors['maxlength'].requiredLength} characters.`;
+    return `${label} is invalid.`;
   }
 
   onSubmit() {

@@ -27,6 +27,21 @@
         outline: none;
         border-color: #ff9900;
       }
+
+      &.invalid {
+        border-color: #d93025;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+
+    .error {
+      color: #d93025;
+      font-size: 12px;
     }
 
     button {

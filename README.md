@@ -86,8 +86,6 @@ Observability with Prometheus, Grafana
 
 Service Mesh (Istio/Linkerd)
 
-🎯 Why Take This Course?
-
 ## Code Structure:- 
 ![image](https://github.com/user-attachments/assets/9914fe05-aadf-42fb-8ab3-3b39e7f30433)
 ## Frontend Flow

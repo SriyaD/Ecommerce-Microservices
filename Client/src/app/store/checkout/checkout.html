@@ -3,21 +3,54 @@
   <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
     <h3>User Information</h3>
     <input formControlName="userName" placeholder="Username" />
-    <input formControlName="firstName" placeholder="First Name" />
-    <input formControlName="lastName" placeholder="Last Name" />
-    <input formControlName="emailAddress" placeholder="Email Address" />
+    <div class="field">
+      <input formControlName="firstName" placeholder="First Name" [class.invalid]="errorFor('firstName')" />
+      @if (errorFor('firstName'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="lastName" placeholder="Last Name" [class.invalid]="errorFor('lastName')" />
+      @if (errorFor('lastName'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="emailAddress" placeholder="Email Address" [class.invalid]="errorFor('emailAddress')" />
+      @if (errorFor('emailAddress'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
 
     <h3>Shipping Address</h3>
-    <input formControlName="addressLine" placeholder="Address" />
-    <input formControlName="state" placeholder="State" />
-    <input formControlName="country" placeholder="Country" />
-    <input formControlName="zipCode" placeholder="Zip Code" />
+    <div class="field">
+      <input formControlName="addressLine" placeholder="Address" [class.invalid]="errorFor('addressLine')" />
+      @if (errorFor('addressLine'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="state" placeholder="State" [class.invalid]="errorFor('state')" />
+      @if (errorFor('state'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="country" placeholder="Country" [class.invalid]="errorFor('country')" />
+      @if (errorFor('country'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="zipCode" placeholder="Zip Code" [class.invalid]="errorFor('zipCode')" />
+      @if (errorFor('zipCode'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
 
     <h3>Payment Information</h3>
-    <input formControlName="cardName" placeholder="Card Name" />
-    <input formControlName="cardNumber" placeholder="Card Number" />
-    <input formControlName="expiration" placeholder="MM/YY" />
-    <input formControlName="cvv" placeholder="CVV" />
+    <div class="field">
+      <input formControlName="cardName" placeholder="Card Name" [class.invalid]="errorFor('cardName')" />
+      @if (errorFor('cardName'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="cardNumber" placeholder="Card Number" [class.invalid]="errorFor('cardNumber')" />
+      @if (errorFor('cardNumber'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="expiration" placeholder="MM/YY" [class.invalid]="errorFor('expiration')" />
+      @if (errorFor('expiration'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
+    <div class="field">
+      <input formControlName="cvv" placeholder="CVV" [class.invalid]="errorFor('cvv')" />
+      @if (errorFor('cvv'); as msg) { <small class="error">{{ msg }}</small> }
+    </div>
 
     <h3>Payment Method</h3>
     <label> <input type="radio" value="1" formControlName="paymentMethod" /> Card </label>

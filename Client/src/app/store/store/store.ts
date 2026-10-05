@@ -88,7 +88,8 @@ export class Store implements OnInit {
       imageFile: p.imageFile,
     };
 
-    this.basketService.getBasket('sriya').subscribe((current) => {
+    const userName = this.basketService.userName;
+    this.basketService.getBasket(userName).subscribe((current) => {
       let items = [...current.items];
       const existing = items.find((i) => i.productId === p.id);
       if (existing) {
@@ -98,7 +99,7 @@ export class Store implements OnInit {
       }
 
       const basket: Basket = {
-        userName: 'sriya',
+        userName,
         items,
         totalPrice: items.reduce((sum, i) => sum + i.price * i.quantity, 0),
       };

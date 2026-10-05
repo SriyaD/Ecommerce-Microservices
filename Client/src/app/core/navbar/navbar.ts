@@ -19,7 +19,7 @@ export class Navbar implements OnInit {
   private router = inject(Router);
    
   ngOnInit(): void {
-    this.basketService.initializeBasket('sriya'); 
+    this.basketService.initializeBasket();
   }
 
   get cartCount(){
@@ -45,6 +45,9 @@ export class Navbar implements OnInit {
 
   logout(){
     this.authService.logout();
+    //switch the cart badge back to the guest basket
+    this.basketService.clearBasket();
+    this.basketService.initializeBasket();
     this.router.navigate(['/auth/login']);
   }
 }

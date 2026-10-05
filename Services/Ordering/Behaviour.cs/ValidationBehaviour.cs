@@ -1,6 +1,16 @@
 ﻿using FluentValidation;
 using MediatR;
+using Ordering.Behaviour;
+//Before any MediatR command/query reaches its handler, automatically run all FluentValidation validators.
+//If validation fails, throw an exception. If validation succeeds, continue to the handler.
 
+//ValidationBehaviour<TRequest, TResponse> is a MediatR pipeline behavior that provides centralized FluentValidation.
+//Before a command or query reaches its handler, it retrieves all validators registered for that request, executes them asynchronously,
+//combines their validation failures, and throws a ValidationException if any rules fail.
+//If validation succeeds, next() continues the MediatR pipeline and eventually executes the request handler.
+
+//TRequest - Represents whatever command/query is currently being processed.
+//IPipelineBehavior<TRequest, TResponse> - comes from MediatR - pipeline behavior allows you to exec sth before and/or after actual request handler.
 namespace Ordering.Behaviour
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>

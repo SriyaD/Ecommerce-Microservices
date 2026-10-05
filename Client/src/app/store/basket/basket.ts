@@ -25,7 +25,7 @@ export class BasketComponent implements OnInit {
     }
 
     // Optionally: refresh from backend to sync latest
-    this.basketService.getBasket('sriya').subscribe({
+    this.basketService.getBasket(this.basketService.userName).subscribe({
       next: (res) => {
         this.basket.set(res);
         this.basketService.setBasket(res); // sync localStorage + badge
@@ -51,7 +51,7 @@ export class BasketComponent implements OnInit {
   removeItem(item: BasketItem) {
     const updatedItems = this.basket()?.items.filter(i => i.productId !== item.productId) || [];
     this.basket.set({
-      userName: 'sriya',
+      userName: this.basketService.userName,
       items: updatedItems,
       totalPrice: updatedItems.reduce((sum, i) => sum + i.price * i.quantity, 0)
     });

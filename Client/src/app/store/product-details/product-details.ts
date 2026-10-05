@@ -42,7 +42,8 @@ export class ProductDetails implements OnInit {
       imageFile: p.imageFile,
     };
     // First fetch existing basket
-    this.basketService.getBasket('sriya').subscribe((current) => {
+    const userName = this.basketService.userName;
+    this.basketService.getBasket(userName).subscribe((current) => {
       let items = [...current.items];
       //if product already exists, then increment quantity
       const existing = items.find((i) => i.productId === p.id);
@@ -54,7 +55,7 @@ export class ProductDetails implements OnInit {
 
       //Recalculate total price
       const basket: Basket = {
-        userName: 'sriya',
+        userName,
         items,
         totalPrice: items.reduce((sum, i) => sum + i.price * i.quantity, 0),
       };
