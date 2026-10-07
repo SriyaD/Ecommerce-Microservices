@@ -14,12 +14,13 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class Navbar implements OnInit {
   searchText = '';
+  searchMode = 'catalog' // default search mode
   private basketService = inject(BasketService);
   private authService = inject(AuthService);
   private router = inject(Router);
    
   ngOnInit(): void {
-    this.basketService.initializeBasket();
+    this.basketService.initializeBasket('rahul.sahay'); 
   }
 
   get cartCount(){
@@ -29,7 +30,11 @@ export class Navbar implements OnInit {
   onSearch() {
     const term = this.searchText.trim();
     if(term) {
-      this.router.navigate(['/store'], {queryParams:{search: term}});
+      this.router.navigate([],{
+        relativeTo: this.router.routerState.root,
+        queryParams: {search: term, mode: this.searchMode},
+        queryParamsHandling: 'merge'
+      });
     } else {
       this.router.navigate(['/store']); //reset to full catalog
     }
@@ -45,9 +50,6 @@ export class Navbar implements OnInit {
 
   logout(){
     this.authService.logout();
-    //switch the cart badge back to the guest basket
-    this.basketService.clearBasket();
-    this.basketService.initializeBasket();
     this.router.navigate(['/auth/login']);
   }
 }
